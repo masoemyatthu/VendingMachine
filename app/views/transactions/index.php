@@ -12,7 +12,7 @@ require_once __DIR__ . '/../layouts/navbar.php';
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Transaction History</h2>
-        <a href="/vendor_machine/public/products" class="btn btn-secondary">
+        <a href="<?= url('products') ?>" class="btn btn-secondary">
             Back to Products
         </a>
     </div>

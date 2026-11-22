@@ -1,8 +1,9 @@
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     <div class="container">
 
         <a class="navbar-brand fw-bold"
-           href="/vendor_machine/public/products">
+           href="<?= url('products') ?>">
             <span class="text-warning">Vending</span> Machine
         </a>
 
@@ -17,22 +18,20 @@
 
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link"
-                       href="/vendor_machine/public/products">
+                    <a class="nav-link" href="<?= url('products') ?>">
                         Products
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link"
-                       href="/vendor_machine/public/products/purchase">
+                    <a class="nav-link" href="<?= url('products/purchase') ?>">
                         Purchase
                     </a>
                 </li>
 
                 <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="/vendor_machine/public/transactions">
+                        <a class="nav-link" href="<?= url('transactions') ?>">
                             Transaction History
                         </a>
                     </li>
@@ -46,7 +45,7 @@
                         Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'User') ?>
                     </span>
 
-                    <a href="/vendor_machine/public/logout"
+                    <a href="<?= url('logout') ?>"
                        class="btn btn-outline-warning btn-sm">
                         Logout
                     </a>

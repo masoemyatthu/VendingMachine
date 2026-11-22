@@ -2,12 +2,12 @@
 
 session_start();
 
+require_once __DIR__ . '/../app/helpers/url.php';
+
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /vendor_machine/public/login');
+    header('Location: ' . url('login'));
     exit;
 }
 
-header('Location: /vendor_machine/public/products');
+header('Location: ' . url('products'));
 exit;
-
-?>

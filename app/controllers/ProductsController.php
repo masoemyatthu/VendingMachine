@@ -3,9 +3,9 @@
 require_once __DIR__ . "/../models/Product.php";
 require_once __DIR__ . "/../libraries/Route.php";
 require_once __DIR__ . "/../helpers/auth.php";
+require_once __DIR__ . "/../helpers/url.php";
 require_once __DIR__ . "/../helpers/ProductValidator.php";
 require_once __DIR__ . "/../models/Transaction.php";
-
 
 class ProductsController
 {
@@ -22,9 +22,7 @@ class ProductsController
 
     private function validateProduct($name, $price, $stock)
     {
-
-        return ProductValidator::validate($name,$price,$stock);
-
+        return ProductValidator::validate($name, $price, $stock);
     }
 
     #[Route('GET', '/products')]
@@ -36,11 +34,7 @@ class ProductsController
         $sortBy = $_GET['sort'] ?? 'id';
         $sortOrder = $_GET['order'] ?? 'ASC';
 
-        $data = $this->getPaginatedProducts(
-            $page,
-            $sortBy,
-            $sortOrder
-        );
+        $data = $this->getPaginatedProducts($page, $sortBy, $sortOrder);
 
         $products = $data['products'];
         $currentPage = $data['currentPage'];
@@ -61,7 +55,6 @@ class ProductsController
     #[Route('POST', '/products')]
     public function store()
     {
-
         requireAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -69,37 +62,26 @@ class ProductsController
         }
 
         $name = trim($_POST['name'] ?? '');
-
         $price = $_POST['price'] ?? '';
-
         $stock = $_POST['stock'] ?? '';
 
         $errors = $this->validateProduct($name, $price, $stock);
 
         if (!empty($errors)) {
-
             http_response_code(422);
-
             echo implode('<br>', array_map('htmlspecialchars', $errors));
-
             return;
-
         }
 
         $result = $this->product->create($name, $price, $stock);
 
         if ($result) {
-
-            header('Location: /vendor_machine/public/products?success=created');
-
+            header('Location: ' . url('products?success=created'));
             exit;
-
         }
 
         http_response_code(500);
-
         echo "Failed to create product.";
-
     }
 
     #[Route('GET', '/products/{id}/edit')]
@@ -120,7 +102,6 @@ class ProductsController
     #[Route('POST', '/products/{id}/update')]
     public function update($id)
     {
-
         requireAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -128,53 +109,36 @@ class ProductsController
         }
 
         if (!filter_var($id, FILTER_VALIDATE_INT) || $id <= 0) {
-
             http_response_code(400);
-
             exit("Invalid product ID.");
-
         }
 
         $name = trim($_POST['name'] ?? '');
-
         $price = $_POST['price'] ?? '';
-
         $stock = $_POST['stock'] ?? '';
 
         $errors = $this->validateProduct($name, $price, $stock);
 
         if (!empty($errors)) {
-
             http_response_code(422);
-
             echo implode('<br>', array_map('htmlspecialchars', $errors));
-
             return;
-
         }
 
         if (!$this->product->getById($id)) {
-
             http_response_code(404);
-
             exit("Product not found.");
-
         }
 
         $result = $this->product->update($id, $name, $price, $stock);
 
         if ($result) {
-
-            header('Location: /vendor_machine/public/products?success=updated');
-
+            header('Location: ' . url('products?success=updated'));
             exit;
-
         }
 
         http_response_code(500);
-
         echo "Failed to update product.";
-
     }
 
     #[Route('POST', '/products/{id}/delete')]
@@ -193,7 +157,7 @@ class ProductsController
         $result = $this->product->delete($id);
 
         if ($result) {
-            header('Location: /vendor_machine/public/products?success=deleted');
+            header('Location: ' . url('products?success=deleted'));
             exit;
         }
 
@@ -268,7 +232,6 @@ class ProductsController
         $totalPrice = $unitPrice * $quantity;
 
         try {
-
             $this->db->beginTransaction();
 
             $stockUpdated = $this->product->decreaseStock($productId, $quantity);
@@ -292,20 +255,16 @@ class ProductsController
 
             $this->db->commit();
 
-            header('Location: /vendor_machine/public/products?success=purchased');
-
+            header('Location: ' . url('products?success=purchased'));
             exit;
 
         } catch (Exception $e) {
-
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
 
             die("Purchase failed. Please try again.");
-
         }
-
     }
 
     #[Route('GET', '/products/purchase')]

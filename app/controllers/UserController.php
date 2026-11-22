@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../helpers/url.php';
 
 class UserController
 {
@@ -16,7 +17,7 @@ class UserController
     public function showLogin()
     {
         if (isset($_SESSION['user_id'])) {
-            header('Location: /vendor_machine/public/products');
+            header('Location: ' . url('products'));
             exit;
         }
 
@@ -29,7 +30,7 @@ class UserController
     public function showRegister()
     {
         if (isset($_SESSION['user_id'])) {
-            header('Location: /vendor_machine/public/products');
+            header('Location: ' . url('products'));
             exit;
         }
 
@@ -107,7 +108,7 @@ class UserController
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['role'] = $user['role'];
 
-                header('Location: /vendor_machine/public/products');
+                header('Location: ' . url('products'));
                 exit;
             }
         }
@@ -121,11 +122,9 @@ class UserController
         session_unset();
         session_destroy();
 
-        header('Location: /vendor_machine/public/login');
+        header('Location: ' . url('login'));
         exit;
     }
 
 }
-
-?>
 

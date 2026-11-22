@@ -1,4 +1,3 @@
-
 <?php
 
 $pageTitle = 'Create Product';
@@ -18,7 +17,7 @@ require_once __DIR__ . '/../layouts/navbar.php';
 
                     <h2 class="mb-4">Create Product</h2>
 
-                    <form action="/vendor_machine/public/products" method="POST">
+                    <form action="<?= url('products') ?>" method="POST">
 
                         <div class="mb-3">
                             <label class="form-label">Product Name</label>
@@ -41,7 +40,7 @@ require_once __DIR__ . '/../layouts/navbar.php';
                             Save Product
                         </button>
 
-                        <a href="/vendor_machine/public/products" class="btn btn-secondary">
+                        <a href="<?= url('products') ?>" class="btn btn-secondary">
                             Back
                         </a>
 

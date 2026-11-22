@@ -13,13 +13,13 @@ require_once __DIR__ . '/../layouts/navbar.php';
         <h2>Product List</h2>
 
         <?php if ($_SESSION['role'] === 'admin'): ?>
-            <a href="/vendor_machine/public/products/create" class="btn btn-primary">
+            <a href="<?= url('products/create') ?>" class="btn btn-primary">
                 + Create Product
             </a>
         <?php endif; ?>
     </div>
 
-    <form method="GET" action="/vendor_machine/public/products" class="row g-2 mb-3">
+    <form method="GET" action="<?= url('products') ?>" class="row g-2 mb-3">
 
         <div class="col-md-3">
             <select name="sort" class="form-select">
@@ -67,16 +67,15 @@ require_once __DIR__ . '/../layouts/navbar.php';
                     <td><?= htmlspecialchars($product['price']) ?></td>
                     <td><?= htmlspecialchars($product['stock']) ?></td>
 
-                    <td>
-                        <?php if ($_SESSION['role'] === 'admin'): ?>
-
-                            <a href="/vendor_machine/public/products/<?= (int) $product['id'] ?>/edit"
+                    <?php if ($_SESSION['role'] === 'admin'): ?>
+                        <td>
+                            <a href="<?= url('products/' . (int) $product['id'] . '/edit') ?>"
                                class="btn btn-sm btn-warning">
                                 Edit
                             </a>
 
                             <form method="POST"
-                                  action="/vendor_machine/public/products/<?= (int) $product['id'] ?>/delete"
+                                  action="<?= url('products/' . (int) $product['id'] . '/delete') ?>"
                                   style="display:inline;"
                                   onsubmit="return confirm('Are you sure you want to delete this product?');">
 
@@ -87,9 +86,8 @@ require_once __DIR__ . '/../layouts/navbar.php';
                                 </button>
 
                             </form>
-
-                        <?php endif; ?>
-                    </td>
+                        </td>
+                    <?php endif; ?>
 
                 </tr>
 

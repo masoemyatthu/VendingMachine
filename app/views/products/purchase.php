@@ -22,7 +22,7 @@ require_once __DIR__ . '/../layouts/navbar.php';
 
                 <div class="card-body">
 
-                    <form action="/vendor_machine/public/products/purchase" method="POST">
+                    <form action="<?= url('products/purchase') ?>" method="POST">
 
                         <div class="mb-3">
 
@@ -69,7 +69,7 @@ require_once __DIR__ . '/../layouts/navbar.php';
                             Purchase Now
                         </button>
 
-                        <a href="/vendor_machine/public/products"
+                        <a href="<?= url('products') ?>"
                            class="btn btn-secondary w-100 mt-2">
                             Back to Products
                         </a>

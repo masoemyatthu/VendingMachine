@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
@@ -21,32 +22,42 @@
                         <h3 class="text-center">Create Account</h3>
                         <p class="text-center text-muted mb-4">Vending Machine Management System</p>
 
-                        <?php if(!empty($message)): ?>
-                            <div class="alert alert-info"><?=  htmlspecialchars($message) ?></div>
+                        <?php if (!empty($message)): ?>
+                            <div class="alert alert-info">
+                                <?= htmlspecialchars($message) ?>
+                            </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="/vendor_machine/public/register">
+                        <form method="POST" action="<?= url('register') ?>">
 
                             <div class="mb-3">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Enter your name" required />
+                                <input type="text" name="name" class="form-control"
+                                    placeholder="Enter your name" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Enter your email" required />
+                                <input type="email" name="email" class="form-control"
+                                    placeholder="Enter your email" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
+                                <input type="password" name="password" class="form-control"
+                                    placeholder="Enter your password" required>
                             </div>
 
-                            <button type="submit" class="w-100 btn btn-primary">Register</button>
+                            <button type="submit" class="w-100 btn btn-primary">
+                                Register
+                            </button>
 
                         </form>
 
-                        <div class="text-center mt-3 mb-0">Already have an account? <a href="/vendor_machine/public/login">Login</a></div>
+                        <div class="text-center mt-3 mb-0">
+                            Already have an account?
+                            <a href="<?= url('login') ?>">Login</a>
+                        </div>
 
                     </div>
                 </div>
