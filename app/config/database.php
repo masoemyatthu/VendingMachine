@@ -1,4 +1,3 @@
-
 <?php
 
 class Database
@@ -20,15 +19,21 @@ class Database
         $password = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD');
 
         try {
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ];
+
+            // Enable TLS only for remote database
+            if (!in_array($host, ['localhost', '127.0.0.1'])) {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = true;
+            }
+
             $this->connection = new PDO(
                 "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
                 $username,
                 $password,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::MYSQL_ATTR_SSL_CA => true,
-                ]
+                $options
             );
 
         } catch (PDOException $e) {
