@@ -1,3 +1,4 @@
+
 <?php
 
 class Database
@@ -11,27 +12,23 @@ class Database
             dirname(__DIR__, 2)
         );
         $dotenv->safeLoad();
-        
-        $host = $_ENV['DB_HOST'];
-        $dbname = $_ENV['DB_NAME'];
-        $username = $_ENV['DB_USERNAME'];
-        $password = $_ENV['DB_PASSWORD'];
+
+        $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
+        $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: 3306;
+        $dbname = $_ENV['DB_NAME'] ?? getenv('DB_NAME');
+        $username = $_ENV['DB_USERNAME'] ?? getenv('DB_USERNAME');
+        $password = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD');
 
         try {
             $this->connection = new PDO(
-                "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+                "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
                 $username,
-                $password
-            );
-
-            $this->connection->setAttribute(
-                PDO::ATTR_ERRMODE,
-                PDO::ERRMODE_EXCEPTION
-            );
-
-            $this->connection->setAttribute(
-                PDO::ATTR_DEFAULT_FETCH_MODE,
-                PDO::FETCH_ASSOC
+                $password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::MYSQL_ATTR_SSL_CA => true,
+                ]
             );
 
         } catch (PDOException $e) {
