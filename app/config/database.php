@@ -1,3 +1,4 @@
+
 <?php
 
 class Database
@@ -10,6 +11,7 @@ class Database
         $dotenv = Dotenv\Dotenv::createImmutable(
             dirname(__DIR__, 2)
         );
+
         $dotenv->safeLoad();
 
         $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
@@ -24,9 +26,9 @@ class Database
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ];
 
-            // Enable TLS only for remote database
             if (!in_array($host, ['localhost', '127.0.0.1'])) {
-                $options[PDO::MYSQL_ATTR_SSL_CA] = true;
+                $options[PDO::MYSQL_ATTR_SSL_CAPATH] = '/etc/ssl/certs/';
+                $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
             }
 
             $this->connection = new PDO(
